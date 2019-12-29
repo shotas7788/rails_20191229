@@ -10,7 +10,7 @@ services:
       - '3000:3000'
     volumes:
       - /var/tmp
-      - .:/app
+      - ./app
     depends_on:
       - db
     extends:
