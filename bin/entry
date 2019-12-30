@@ -6,8 +6,8 @@ until mysqladmin ping -h db -P 3306 --silent; do
   sleep 1s
 done
 echo "success to connect mysql"
-rake db:migrate
-rake db:seed
+rails db:migrate
+rails db:seed
 unicorn -p 3000 -c /app/config/unicorn.rb
 
 exec "$@"
