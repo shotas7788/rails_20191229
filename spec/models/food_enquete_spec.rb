@@ -37,5 +37,28 @@ RSpec.describe FoodEnquete, type: :model do
       end
     end
   end
+
+  describe '入力項目の有無' do
+    context '必須入力であること' do
+
+      it 'お名前が必須であること' do
+        new_enquete = FoodEnquete.new
+        expect(new_enquete).not_to be_valid
+        expect(new_enquete.errors[:name]).to include(I18n.t('errors.messages.blank'))
+      end
+
+      it 'メールアドレスが必須であること' do
+        new_enquete = FoodEnquete.new
+        expect(new_enquete).not_to be_valid
+        expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.blank'))
+      end
+
+      it '登録できないこと' do
+        new_enquete = FoodEnquete.new
+        expect(new_enquete.save).to be_falsey
+      end
+    end
+  end
 end
+
 
