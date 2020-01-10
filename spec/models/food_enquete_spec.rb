@@ -37,36 +37,39 @@ RSpec.describe FoodEnquete, type: :model do
     end
   end
 
-  describe '入力項目の有無' do
-    context '必須入力であること' do
+  # describe '入力項目の有無' do
 
-      it 'お名前が必須であること' do
-        new_enquete = FoodEnquete.new
-        expect(new_enquete).not_to be_valid
-        expect(new_enquete.errors[:name]).to include(I18n.t('errors.messages.blank'))
-      end
+  #   let(:new_enquete) { FoodEnquete.new }
 
-      it 'メールアドレスが必須であること' do
-        new_enquete = FoodEnquete.new
-        expect(new_enquete).not_to be_valid
-        expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.blank'))
-      end
+  #   context '必須入力であること' do
 
-      it '登録できないこと' do
-        new_enquete = FoodEnquete.new
-        expect(new_enquete.save).to be_falsey
-      end
-    end
+  #     it 'お名前が必須であること' do
+  #       # new_enquete = FoodEnquete.new
+  #       expect(new_enquete).not_to be_valid
+  #       expect(new_enquete.errors[:name]).to include(I18n.t('errors.messages.blank'))
+  #     end
+
+  #     it 'メールアドレスが必須であること' do
+  #       # new_enquete = FoodEnquete.new
+  #       expect(new_enquete).not_to be_valid
+  #       expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.blank'))
+  #     end
+
+  #     it '登録できないこと' do
+  #       # new_enquete = FoodEnquete.new
+  #       expect(new_enquete.save).to be_falsey
+  #     end
+  #   end
     
-    context '任意入力であること' do
-      it 'ご意見・ご要望が任意であること' do
-        new_enquete = FoodEnquete.new
-        expect(new_enquete).not_to be_valid
-        # [Point.3-4-6]必須入力のメッセージが含まれないことを検証します。
-        expect(new_enquete.errors[:request]).not_to include(I18n.t('errors.messages.blank'))
-      end
-    end
-  end
+  #   context '任意入力であること' do
+  #     it 'ご意見・ご要望が任意であること' do
+  #       # new_enquete = FoodEnquete.new
+  #       expect(new_enquete).not_to be_valid
+  #       # [Point.3-4-6]必須入力のメッセージが含まれないことを検証します。
+  #       expect(new_enquete.errors[:request]).not_to include(I18n.t('errors.messages.blank'))
+  #     end
+  #   end
+  # end
 
   describe '#adult?' do
     it '20歳未満は成人ではないこと' do
@@ -113,6 +116,11 @@ RSpec.describe FoodEnquete, type: :model do
     end
 
     context 'メールアドレスを確認すること' do
+
+      before do
+        FactoryBot.create(:food_enquete_tanaka)
+      end
+
       it '同じメールアドレスで再び回答できないこと' do
         # enquete_tanaka = FoodEnquete.new(
         #   name: '田中 太郎',
@@ -124,7 +132,7 @@ RSpec.describe FoodEnquete, type: :model do
         #   present_id: 1
         # )
         # enquete_tanaka.save
-        FactoryBot.create(:food_enquete_tanaka)
+        # FactoryBot.create(:food_enquete_tanaka)
 
         # re_enquete_tanaka = FoodEnquete.new(
         #   name: '田中 太郎',
@@ -154,7 +162,7 @@ RSpec.describe FoodEnquete, type: :model do
         #   present_id: 1
         # )
         # enquete_tanaka.save
-        FactoryBot.create(:food_enquete_tanaka)
+        # FactoryBot.create(:food_enquete_tanaka)
   
         # enquete_yamada = FoodEnquete.new(
         #   name: '山田 次郎',
@@ -174,16 +182,27 @@ RSpec.describe FoodEnquete, type: :model do
     end
   end
 
-  describe 'メールアドレスの形式' do
-    context '不正な形式のメールアドレスの場合' do
-      it 'エラーになること' do
-        new_enquete = FoodEnquete.new
-        new_enquete.mail = "taro.tanaka"
-        expect(new_enquete).not_to be_valid
-        expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.invalid'))
-      end
-    end
+  # describe 'メールアドレスの形式' do
+  #   context '不正な形式のメールアドレスの場合' do
+  #     it 'エラーになること' do
+  #       new_enquete = FoodEnquete.new
+  #       new_enquete.mail = "taro.tanaka"
+  #       expect(new_enquete).not_to be_valid
+  #       expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.invalid'))
+  #     end
+  #   end
+  # end
+
+  describe '共通メソッド' do
+    it_behaves_like '価格の表示'
+    it_behaves_like '満足度の表示'
   end
+
+  describe '共通バリデーション' do
+    it_behaves_like '入力項目の有無'
+    it_behaves_like 'メールアドレスの形式'    
+  end
+
 end
 
 
