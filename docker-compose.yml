@@ -14,6 +14,9 @@ services:
     volumes:
       - /var/tmp
       - .:/app
+      - bundle_path:/bundle
+    environment:
+      - BUNDLE_PATH=/bundle
     depends_on:
       - db
     extends:
@@ -34,3 +37,4 @@ services:
 
 volumes:
   db_data:
+  bundle_path:
