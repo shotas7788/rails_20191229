@@ -3,4 +3,5 @@ ja:
       create: '%{name}を作成しました'
       update: '%{name}を更新しました'
       destroy: '%{name}を削除しました'
-      submit: '%{name}を送信しました'
+      # submit: '%{name}を送信しました'
+      submit: 'ご回答ありがとうございました'
